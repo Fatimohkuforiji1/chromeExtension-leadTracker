@@ -1,3 +1,4 @@
+// chrome://extensions/
 let myLeads = [];
 const inputEl = document.getElementById("input-el"); //const means name can't be reassign
 const inputBtn = document.getElementById("input-btn");
@@ -5,10 +6,8 @@ const ulEl = document.getElementById("ul-el");
 
 //add event listener to the input button to replace onclick on html
 inputBtn.addEventListener("click", function () {
-
   myLeads.push(inputEl.value);
   inputEl.value = ""; //clear input field
-
   renderLeads();
 
 });
@@ -26,7 +25,8 @@ let listItems = "";
         <a target='_blank' href = '${myLeads[i]}'>
           ${myLeads[i]}
           </a>
-    </li>`
+    </li>
+    `
 
   } 
 ulEl.innerHTML = listItems;  
