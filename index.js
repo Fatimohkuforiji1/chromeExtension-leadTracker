@@ -3,15 +3,22 @@ let myLeads = [];
 const inputEl = document.getElementById("input-el"); //const means name can't be reassign
 const inputBtn = document.getElementById("input-btn");
 const ulEl = document.getElementById("ul-el");
+const deleteBtn = document.getElementById("delete-btn");
 
 //local storage saves our work on chrome
-let leadsFromLocalStorage = JSON.parse(localStorage.getItem("myLeads"));
+const leadsFromLocalStorage = JSON.parse(localStorage.getItem("myLeads"));
  console.log(leadsFromLocalStorage);
 
 if (leadsFromLocalStorage) {
   myLeads = leadsFromLocalStorage;
   renderLeads();
 }
+
+deleteBtn.addEventListener("dblclick", function(e){
+  localStorage.clear();
+  myLeads =[]
+  renderLeads();
+})
 //add event listener to the input button to replace onclick on html
 inputBtn.addEventListener("click", function () {
   myLeads.push(inputEl.value);
