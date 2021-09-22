@@ -1,16 +1,11 @@
 // chrome://extensions/
 let myLeads = [];
-const tabs = [
-  { url: "https://www.linkedin.com/in/fatimoh-kuforiji-0121ab20a/" },
-];
 const inputEl = document.getElementById("input-el"); //const means name can't be reassign
 const inputBtn = document.getElementById("input-btn");
 const ulEl = document.getElementById("ul-el");
 const deleteBtn = document.getElementById("delete-btn");
 const tabBtn = document.getElementById("tab-btn");
-
-//local storage saves our work on chrome
-const leadsFromLocalStorage = JSON.parse(localStorage.getItem("myLeads"));
+const leadsFromLocalStorage = JSON.parse(localStorage.getItem("myLeads")); //local storage saves our work on chrome
 console.log(leadsFromLocalStorage);
 
 if (leadsFromLocalStorage) {
@@ -37,7 +32,7 @@ function render(leads) {
 }
 
 tabBtn.addEventListener("click", function () {
-  chrome.tabs.query({ active: true, currentWindow: true }, function (tab) {
+  chrome.tabs.query({ active: true, currentWindow: true }, function (tabs) {
     myLeads.push(tabs[0].url);
     localStorage.setItem("myLeads", JSON.stringify(myLeads));
     render(myLeads);
