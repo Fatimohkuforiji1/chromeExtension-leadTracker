@@ -1,49 +1,57 @@
 // chrome://extensions/
 let myLeads = [];
+const tabs = [
+  { url: "https://www.linkedin.com/in/fatimoh-kuforiji-0121ab20a/" },
+];
 const inputEl = document.getElementById("input-el"); //const means name can't be reassign
 const inputBtn = document.getElementById("input-btn");
 const ulEl = document.getElementById("ul-el");
 const deleteBtn = document.getElementById("delete-btn");
+const tabBtn = document.getElementById("tab-btn");
 
 //local storage saves our work on chrome
 const leadsFromLocalStorage = JSON.parse(localStorage.getItem("myLeads"));
- console.log(leadsFromLocalStorage);
+console.log(leadsFromLocalStorage);
 
 if (leadsFromLocalStorage) {
   myLeads = leadsFromLocalStorage;
-  renderLeads();
+  render(myLeads);
 }
 
-deleteBtn.addEventListener("dblclick", function(e){
-  localStorage.clear();
-  myLeads =[]
-  renderLeads();
-})
-//add event listener to the input button to replace onclick on html
-inputBtn.addEventListener("click", function () {
-  myLeads.push(inputEl.value);
-  inputEl.value = ""; //clear input field
-
-  localStorage.setItem("myLeads", JSON.stringify(myLeads));
-  renderLeads();
- 
-});
-
-function renderLeads() {
+function render(leads) {
   let listItems = "";
-  for (let i = 0; i < myLeads.length; i++) {
+  for (let i = 0; i < leads.length; i++) {
     // const li = document.createElement("li")
     // li.textContent = myLeads[i]
     // ulEl.append(li) same as
-
-    //listItems += "<li><a target='_blank' href = '" + myLeads[i] + "' >" +  myLeads[i] +"</a></li>";
+    //listItems += "<li><a target='_blank' href = '" + leads[i] + "' >" +  myLeads[i] +"</a></li>";
     listItems += `
     <li>
-        <a target='_blank' href = '${myLeads[i]}'>
-          ${myLeads[i]}
+        <a target='_blank' href = '${leads[i]}'>
+          ${leads[i]}
           </a>
     </li>
     `;
   }
   ulEl.innerHTML = listItems;
 }
+
+tabBtn.addEventListener("click", function () {
+  chrome.tabs.query({ active: true, currentWindow: true }, function (tab) {
+    myLeads.push(tabs[0].url);
+    localStorage.setItem("myLeads", JSON.stringify(myLeads));
+    render(myLeads);
+  });
+});
+deleteBtn.addEventListener("dblclick", function () {
+  localStorage.clear();
+  myLeads = [];
+  render(myLeads);
+});
+//add event listener to the input button to replace onclick on html
+inputBtn.addEventListener("click", function () {
+  myLeads.push(inputEl.value);
+  inputEl.value = ""; //clear input field
+  localStorage.setItem("myLeads", JSON.stringify(myLeads));
+  render(myLeads);
+});
